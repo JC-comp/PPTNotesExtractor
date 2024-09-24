@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roman PPT notes extractor</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>PPT notes extractor</h1>
+    <p>
+        This is a simple web app that extracts notes from PowerPoint presentations.
+    </p>
+    <div class="warning">
+        ⚠️ This app currently has known unsupported formats:
+        <ul>
+            <li>Math equations</li>
+            <li>Font styles (e.g., bold, italics, etc.)</li>
+        </ul>
+    </div>
+    <input type="file" id="file" accept=".pptx">
+    <button id="extract">Select a PPT file to extract!</button>
+    <div class="holder hidden">
+        <div>
+            <p>Table view</p>
+            <div id="notes">
+            </div>
+        </div>
+        <div>
+            <p>Plain text view</p>
+            <div id="notes_txt"></div>
+        </div>
+    </div>
+    <footer></footer>
+        <p>
+            Source code on 
+            <a href="https://github.com/JC-comp/PPTNotesExtractor" target="_blank">GitHub</a>.
+        </p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
