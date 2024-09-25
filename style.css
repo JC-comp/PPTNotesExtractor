@@ -1,10 +1,10 @@
 /* General Styles */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f5f5f5;
+    background-color: white;
     margin: 0;
     padding: 20px;
-    color: #333;
+    color: black;
 }
 
 h1 {
@@ -14,14 +14,14 @@ h1 {
     margin-bottom: 20px;
 }
 
-p {
+.info {
     text-align: center;
     font-size: 1.2em;
     margin-bottom: 20px;
 }
 
 /* File Input and Button */
-#file, #extract {
+#file, #toggle {
     display: block;
     margin: 0 auto 20px auto;
     padding: 10px 20px;
@@ -35,26 +35,26 @@ p {
     cursor: pointer;
 }
 
-#extract {
+#toggle {
     background-color: #4CAF50;
     color: white;
     border: none;
     cursor: pointer;
+    user-select: none;
     transition: background-color 0.3s ease;
 }
 
-#extract:hover {
+#toggle:hover {
     background-color: #45a049;
 }
 
 /* Table Styles */
 #notes {
-    margin-top: 30px;
     text-align: center;
+    overflow: auto;
 }
 
 table {
-    margin: 20px auto;
     border-collapse: collapse;
     background-color: #fff;
     border-radius: 10px;
@@ -76,10 +76,6 @@ table th {
     background-color: #4CAF50;
     color: white;
     font-weight: bold;
-}
-
-table td {
-    color: #555;
 }
 
 table td:first-child {
@@ -106,7 +102,6 @@ table td:last-child {
 }
 
 .warning ul {
-    list-style-type: none;
     padding: 0;
     margin: 10px 0 0 0;
 }
@@ -120,14 +115,26 @@ table td:last-child {
 
 .holder {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: flex-start;
+    margin: 20px auto;
 }
 
 .holder > div {
-    width: 45%;
+    margin: 0px 10px;
+    width: 100%;
 }
 
 .hidden {
     display: none;
+}
+
+p {
+    margin: 0;
+}
+
+p:after {
+    content:"";
+    display:inline-block;
+    width:0px;
 }

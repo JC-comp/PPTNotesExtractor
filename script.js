@@ -1,19 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
     var file_input = document.getElementById("file");
     var holder = document.getElementsByClassName("holder")[0];
+    var empty = document.getElementById('empty');
     var notes = document.getElementById("notes");
     var notes_txt = document.getElementById("notes_txt");
-
-    function parse_page(page) {
-        var content = '';
-        for (let element of page.children) {
-            if (element.tagName == "a:p") {
-                content += element.textContent;
-                content += "<br>";
-            }
-        }
-        return content;
-    }
 
     async function extract_target_slides(zip) {
         var note_contents = [];
@@ -24,16 +14,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 var content = await zip.file(file.name).async("string");
                 
                 var xmlDoc = parser.parseFromString(content,"text/xml");
-                var body = xmlDoc.getElementsByTagName("p:txBody");
-                if (body.length < 2)
-                    continue;
-                var page = body[body.length - 1].textContent;
-                body = body[0];
-                page = parseInt(page);
-                note_contents.push([page, parse_page(body)]);
+                var page = new Page(xmlDoc);
+                if (page.sldNum >= 0) {
+                    note_contents.push(page);
+                }
             }
         };
-        note_contents.sort((a,b) => a[0] - b[0]);
+        note_contents.sort((a,b) => a.sldNum - b.sldNum);
         return note_contents;
     }
 
@@ -60,11 +47,13 @@ document.addEventListener("DOMContentLoaded", () => {
             var row = document.createElement("tr");
 
             var pageCell = document.createElement("td");
-            pageCell.innerHTML = slides[i][0];
+            pageCell.innerHTML = slides[i].sldNum;
 
             var contentCell = document.createElement("td");
-            contentCell.innerHTML = slides[i][1];
-            content += 'Page ' + slides[i][0] + '<br>' + slides[i][1] + '<br>';
+            contentCell.innerHTML = slides[i].getContent();
+            if (contentCell.innerText.length == 0)
+                continue;
+            content += 'Page ' + slides[i].sldNum + '<br>' + slides[i].getRawContent() + '<br>';
             
             row.appendChild(pageCell);
             row.appendChild(contentCell);
@@ -74,9 +63,14 @@ document.addEventListener("DOMContentLoaded", () => {
         
         notes.appendChild(table);
         notes_txt.innerHTML = content;
+        if (content.length == 0) {
+            holder.classList.add("hidden");
+            empty.classList.remove("hidden");
+        }
     }
     
     file_input.addEventListener("change", () => {
+        empty.classList.add("hidden");
         if (file_input.files.length == 0) {
             holder.classList.add("hidden");
             return;
@@ -90,5 +84,31 @@ document.addEventListener("DOMContentLoaded", () => {
         }).then(slides => {
             render_notes(slides);
         });
+    });
+
+    var toggle = document.getElementById("toggle");
+    var header = document.getElementById("header");
+    var footer = document.getElementsByTagName("footer")[0];
+    var table_holder = document.getElementById("table_holder");
+    var txt_holder = document.getElementById("txt_holder");
+    var mode = 0;
+    toggle.addEventListener("click", () => {
+        mode = (mode + 1) % 3;
+        if (mode == 0) {
+            header.classList.remove("hidden");
+            footer.classList.remove("hidden");
+            table_holder.classList.remove("hidden");
+            txt_holder.children[0].classList.remove("hidden");
+        } else if (mode == 1) {
+            header.classList.add("hidden");
+            footer.classList.add("hidden");
+            txt_holder.classList.add("hidden");
+            table_holder.children[0].classList.add("hidden");
+        } else if (mode == 2) {
+            txt_holder.classList.remove("hidden");
+            txt_holder.children[0].classList.add("hidden");
+            table_holder.classList.add("hidden");
+            table_holder.children[0].classList.remove("hidden");
+        }    
     });
 });

@@ -14,4 +14,4 @@ Live demo of the app:
 ## Known Limitations
 ⚠️ **This app currently has known unsupported formats**:
 - Math equations
-- Font styles (e.g., bold, italics, etc.)
+- Line styles (e.g., bullets, autonumbers, etc.)

@@ -9,36 +9,42 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>PPT notes extractor</h1>
-    <p>
-        This is a simple web app that extracts notes from PowerPoint presentations.
-    </p>
-    <div class="warning">
-        ⚠️ This app currently has known unsupported formats:
-        <ul>
-            <li>Math equations</li>
-            <li>Font styles (e.g., bold, italics, etc.)</li>
-        </ul>
+    <div id="header">
+        <h1>PPT notes extractor</h1>
+        <p class="info">
+            This is a simple web app that extracts notes from PowerPoint presentations.
+        </p>
+        <div class="warning">
+            ⚠️ This app currently has known unsupported formats:
+            <ul>
+                <li>Math equations</li>
+                <li>Font styles (e.g., bullets, autonumbers, underlines, etc.)</li>
+            </ul>
+        </div>
+        <input type="file" id="file" accept=".pptx">
     </div>
-    <input type="file" id="file" accept=".pptx">
-    <button id="extract">Select a PPT file to extract!</button>
+    <button id="toggle">Select a PPT file to extract!</button>
     <div class="holder hidden">
-        <div>
-            <p>Table view</p>
+        <div id="table_holder">
+            <p class="info">Table view</p>
             <div id="notes">
             </div>
         </div>
-        <div>
-            <p>Plain text view</p>
+        <div id="txt_holder">
+            <p class="info">Plain text view</p>
             <div id="notes_txt"></div>
         </div>
     </div>
-    <footer></footer>
-        <p>
+    <h2 id="empty" class="info hidden">
+        No notes found.
+    </h2>
+    <footer>
+        <p class="info">
             Source code on 
             <a href="https://github.com/JC-comp/PPTNotesExtractor" target="_blank">GitHub</a>.
         </p>
     </footer>
+    <script src="openxml.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
